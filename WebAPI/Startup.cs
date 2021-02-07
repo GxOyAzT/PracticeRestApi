@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 namespace WebAPI
 {
@@ -61,6 +63,14 @@ namespace WebAPI
                 {
                     settings.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
+
+            services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = false;
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
             services.AddSingleton<IModelARepo, ModelARepo>();
 

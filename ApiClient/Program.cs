@@ -2,9 +2,19 @@
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
+HttpClient httpClient = new HttpClient();
 
+httpClient.DefaultRequestHeaders.Add("api-version", "3.0");
+
+httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVXNlcjEiLCJqdGkiOiI3Yzc2MmM2NC0xMTJhLTQzYzgtYWJjOC04MjQwNTMwNzdhZTUiLCJleHAiOjE2MTI3MDQ5ODYsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NjE5NTUiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjQyMDAifQ.YnTm7Zu1CRrUJc7IZOhupnPYpUi7v09NBAxgl-y_PcQ");
+
+var result = await httpClient.GetAsync("https://localhost:5001/api/ModelA/");
+
+Console.WriteLine();
 
 // --------------------------------------------------------------------------------------------
 

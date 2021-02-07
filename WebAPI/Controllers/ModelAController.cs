@@ -12,9 +12,10 @@ using System.Linq;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/ModelA")]
     [ApiController]
     [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/ModelA")]
     public class ModelAController : ControllerBase
     {
         private readonly IModelARepo _modelARepo;
@@ -37,7 +38,7 @@ namespace WebAPI.Controllers
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
 
-            return Ok(_mapper.Map<List<ModelAReadDTO>>(_modelARepo.GetAll().Where(e => e.User == user.Id)));
+            return Ok(_mapper.Map<List<ModelAReadDTO>>(_modelARepo.GetAll()));
         }
 
         // GET api/ModelA/{id}
