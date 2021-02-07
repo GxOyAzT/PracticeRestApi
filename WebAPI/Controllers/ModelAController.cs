@@ -1,39 +1,55 @@
 ﻿using AllBackgroundStuff;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebAPI.Data;
+using System.Linq;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
     [Route("api/ModelA")]
     [ApiController]
+    [Authorize]
     public class ModelAController : ControllerBase
     {
         private readonly IModelARepo _modelARepo;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public ModelAController(
             IModelARepo modelARepo,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager)
         {
             _modelARepo = modelARepo;
             _mapper = mapper;
+            this.userManager = userManager;
         }
 
         // GET api/ModelA
         [HttpGet]
-        public ActionResult <List<ModelAReadDTO>> GetAllModelAs()
+        public async Task<ActionResult <List<ModelAReadDTO>>> GetAllModelAs()
         {
-            return Ok(_mapper.Map<List<ModelAReadDTO>>(_modelARepo.GetAll()));
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            return Ok(_mapper.Map<List<ModelAReadDTO>>(_modelARepo.GetAll().Where(e => e.User == user.Id)));
         }
 
         // GET api/ModelA/{id}
         [HttpGet("{propInt}", Name = "GetModelAByPropInt")]
-        public ActionResult <ModelAReadDTO> GetModelAByPropInt(int propInt)
+        public async Task<ActionResult<ModelAReadDTO>>  GetModelAByPropInt(int propInt)
         {
             var result = _modelARepo.Get(propInt);
+
+            var userId = await userManager.GetUserAsync(User);
 
             if (result != null) return Ok(_mapper.Map<ModelAReadDTO>(result));
             else return NotFound();

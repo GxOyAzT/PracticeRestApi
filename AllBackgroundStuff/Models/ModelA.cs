@@ -10,5 +10,6 @@ namespace AllBackgroundStuff
         public Guid PropGuid { get; set; }
         public DateTime PropDateTime { get; set; }
         public ModelEnum PropModelEnum { get; set; }
+        public string User { get; set; }
     }
 }

@@ -1,28 +1,70 @@
 ﻿using AllBackgroundStuff;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ApiClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             HttpClient httpClient = new HttpClient();
 
-            httpClient.Timeout = TimeSpan.FromSeconds(5);
+            PatchJson patchJson = new PatchJson(PatchOperation.add, nameof(ModelA.PropInt),20);
 
-            var result = httpClient.GetAsync("https://localhost:5001/api/ModelA/10");
+            PatchJsonList patchJsonList = new(new List<PatchJson>() { patchJson });
 
-            result.Wait();
+            string str = patchJsonList.SerializeObjectToJsonFormat();
 
-            if (!result.IsCompletedSuccessfully)
-                Console.WriteLine("Not completed succesfully");
+            Console.WriteLine(str);
 
-            var outputString = result.Result.Content.ReadAsStringAsync().Result;
+            var content = new StringContent(str, Encoding.UTF8, "application/json");
 
-            var modelAReadDTO = JsonConvert.DeserializeObject<ModelAReadDTO>(outputString);
+            var result = await httpClient.PatchAsync("https://localhost:5001/api/ModelA/50", content);
         }
     }
 }
+
+// --------------------------------------------------------------------------------------------
+
+
+//HttpClient httpClient = new HttpClient();
+
+//ModelAUpdateDTO modelACreateDTO = new()
+//{
+//    PropInt = 100,
+//    PropString = "asia@gmail.com",
+//    PropGuid = Guid.NewGuid(),
+//    PropDouble = 2.99F,
+//    PropModelEnum = ModelEnum.EnumProp2
+//};
+
+//Console.WriteLine(nameof(ModelA));
+
+//var convertedToJson = JsonConvert.SerializeObject(modelACreateDTO);
+
+//var content = new StringContent(convertedToJson.ToString(), Encoding.UTF8, "application/json");
+
+//var result = await httpClient.PutAsync("https://localhost:5001/api/ModelA/100", content);
+
+
+// --------------------------------------------------------------------------------------------
+
+
+//HttpClient httpClient = new HttpClient();
+
+//PatchJson patchJson = new PatchJson(PatchOperation.add, nameof(ModelA.PropInt), 20);
+
+//PatchJsonList patchJsonList = new(new List<PatchJson>() { patchJson });
+
+//string str = patchJsonList.SerializeObjectToJsonFormat();
+
+//Console.WriteLine(str);
+
+//var content = new StringContent(str, Encoding.UTF8, "application/json");
+
+//var result = await httpClient.PatchAsync("https://localhost:5001/api/ModelA/50", content);

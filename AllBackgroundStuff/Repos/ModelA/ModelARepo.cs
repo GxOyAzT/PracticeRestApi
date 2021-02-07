@@ -10,23 +10,35 @@ namespace AllBackgroundStuff
         {
             Models = new List<ModelA>()
             {
-                new ModelA()
+                new ()
                 {
                     PropInt = 10,
                     PropDouble = 10.99F,
                     PropGuid = Guid.Parse("8724f477-a21e-42c8-9519-57e97e52d67d"),
                     PropDateTime = new DateTime(2000,3,1,15,54,5),
                     PropString = "xyz@gmail.com",
-                    PropModelEnum = ModelEnum.EnumProp2
+                    PropModelEnum = ModelEnum.EnumProp2,
+                    User = "69e7586a-d4c1-4603-b7cb-bb8b849522d0"
                 },
-                new ModelA()
+                new ()
                 {
                     PropInt = 7,
                     PropDouble = 0F,
                     PropGuid = Guid.Parse("474f18f7-0075-4c30-a6b2-f27473e760ce"),
                     PropDateTime = new DateTime(1987,5,30),
                     PropString = "abc@gmail.com",
-                    PropModelEnum = ModelEnum.EnumProp3
+                    PropModelEnum = ModelEnum.EnumProp3,
+                    User = "69e7586a-d4c1-4603-b7cb-bb8b849522d0"
+                },
+                new ()
+                {
+                    PropInt = 1,
+                    PropDouble = 0F,
+                    PropGuid = Guid.Parse("474f18f7-0075-4c30-a6b2-f27473e760ce"),
+                    PropDateTime = new DateTime(1987,5,30),
+                    PropString = "000@gmail.com",
+                    PropModelEnum = ModelEnum.EnumProp1,
+                    User = "00000000-d4c1-4603-b7cb-bb8b849522d0"
                 }
             };
         }
