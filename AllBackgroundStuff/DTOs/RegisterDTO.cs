@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.Data
+namespace AllBackgroundStuff
 {
-    public class RegisterModel
+    public class RegisterDTO
     {
         [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; }

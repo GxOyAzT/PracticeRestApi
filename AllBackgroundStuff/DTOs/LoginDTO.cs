@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebAPI.Data
+namespace AllBackgroundStuff
 {
-    public class LoginModel
+    public class LoginDTO
     {
         [Required(ErrorMessage = "User Name is required")]
         public string Username { get; set; }

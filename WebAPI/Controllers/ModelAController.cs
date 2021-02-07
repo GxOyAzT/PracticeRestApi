@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Data;
 using System.Linq;
-using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -37,8 +36,6 @@ namespace WebAPI.Controllers
         public async Task<ActionResult <List<ModelAReadDTO>>> GetAllModelAs()
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
-
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             return Ok(_mapper.Map<List<ModelAReadDTO>>(_modelARepo.GetAll().Where(e => e.User == user.Id)));
         }
